@@ -1,0 +1,101 @@
+---
+title: Bioconductor Website Redesign 
+subtitle: Survey response numbers
+date: now
+format: 
+  html:
+    self-contained: true
+    code-fold: true
+    code-summary: "Show code"
+editor: visual
+execute:
+  message: false
+  warning: false
+---
+
+![](SOCIAL-IMAGE2.png){width="500px"}
+
+Link: <https://t.maze.co/169169456>.\
+Closes: Friday June 23
+
+```{r}
+# Load packages
+library(tidyverse)
+library(countrycode)
+library(maps)
+library(plotly)
+library(reactable)
+
+# Import survey data
+d <- read_csv("maze_169169456_block_9ddce458-867d-4f3b-85a4-93d015455926_sessions.csv")
+
+# Standardise country names
+d_countries <- d |> 
+  mutate(country = countrycode(value, origin = "country.name", destination = "country.name", origin_regex = TRUE)) 
+
+# Fix country text not matched
+d_clean <- d_countries |> 
+  mutate(country = 
+    case_when(toupper(value) == "NL" ~ "Netherlands",
+              value == "England" ~ "United Kingdom",
+              value == "CH\n" ~ "Switzerland",
+              TRUE ~ country))
+
+# Add continents
+d_clean <- d_clean |> 
+    mutate(continent = countrycode(country, origin = "country.name", destination = "continent"))
+
+# Get counts per country
+country_counts <- 
+  d_clean |> 
+  group_by(country) |>
+  mutate(n = n()) |>
+  select(continent, country, n) |>
+  distinct()
+```
+
+## Map of response numbers by country
+
+```{r}
+world_map <- map_data("world")
+world_map <- subset(world_map, region != "Antarctica")
+
+# Standarise the region to the country names 
+world_map <- world_map |>
+mutate(country = countrycode(region, origin = "country.name", destination = "country.name", origin_regex = TRUE))
+
+# Merge the datasets
+world_map <- world_map %>%
+  left_join(country_counts) |>
+  mutate(n = replace_na(n, 0))
+
+# Plot
+gg <- ggplot() +
+  geom_polygon(data = world_map, 
+               aes(x = long, y = lat, group = group, fill = n, text = paste(country, n, sep = "\n")), 
+               colour = "grey", 
+               linewidth = 0.25) +
+  scale_fill_gradient(low = "white", high = "red") + 
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  labs(fill = "n") 
+
+
+ggplotly(gg, tooltip = "text") |> 
+  layout(width=700, height=450,
+         legend = list(orientation = "h", x = 0.25, y = -0.02))
+```
+## Table of response numbers by continent
+
+```{r}
+d_clean |> 
+  count(continent, sort = TRUE) |>
+  reactable(striped = TRUE)
+```
+
+## Table of response numbers by country
+
+```{r}
+country_counts |>
+  reactable(defaultSorted = "n", defaultSortOrder = "desc", searchable = TRUE, striped = TRUE, defaultPageSize = 300)
+```
