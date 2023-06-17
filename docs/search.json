@@ -11,20 +11,20 @@
     "href": "countries.html#map-of-response-numbers-by-country",
     "title": "Survey response numbers",
     "section": "Map of response numbers by country",
-    "text": "Map of response numbers by country\n\n\nShow code\nworld_map &lt;- map_data(\"world\")\nworld_map &lt;- subset(world_map, region != \"Antarctica\")\n\n# Standarise the region to the country names \nworld_map &lt;- world_map |&gt;\nmutate(country = countrycode(region, origin = \"country.name\", destination = \"country.name\", origin_regex = TRUE))\n\n# Merge the datasets\nworld_map &lt;- world_map %&gt;%\n  left_join(country_counts) |&gt;\n  mutate(n = replace_na(n, 0))\n\n# Plot\ngg &lt;- ggplot() +\n  geom_polygon(data = world_map, \n               aes(x = long, y = lat, group = group, fill = n, text = paste(country, n, sep = \"\\n\")), \n               colour = \"grey\", \n               linewidth = 0.25) +\n  scale_fill_gradient(low = \"white\", high = \"red\") + \n  theme_minimal() +\n  theme(legend.position = \"bottom\") +\n  labs(fill = \"n\") \n\n\nggplotly(gg, tooltip = \"text\") |&gt; \n  layout(width=700, height=450,\n         legend = list(orientation = \"h\", x = 0.25, y = -0.02)) |&gt;\n  partial_bundle() # reduce html file size"
+    "text": "Map of response numbers by country\n\n\nShow code\nworld_map &lt;- map_data(\"world\")\nworld_map &lt;- subset(world_map, region != \"Antarctica\")\n\n# Standarise the region to the country names \nworld_map &lt;- world_map |&gt;\nmutate(country = countrycode(region, origin = \"country.name\", destination = \"country.name\", origin_regex = TRUE))\n\n# Merge the datasets\nworld_map &lt;- world_map %&gt;%\n  left_join(country_counts) |&gt;\n  mutate(n = replace_na(n, 0))\n\n# Plot\ngg &lt;- ggplot() +\n  geom_polygon(data = world_map, \n               aes(x = long, y = lat, group = group, fill = n, text = paste(country, n, sep = \"\\n\")), \n               colour = \"grey\", \n               linewidth = 0.25) +\n  scale_fill_gradient(low = \"white\", high = \"red\") + \n  theme_minimal() +\n  theme(legend.position = \"bottom\") +\n  labs(fill = \"n\") \n\n\nggplotly(gg, tooltip = \"text\") |&gt; \n  layout(width=900,\n         legend = list(orientation = \"h\", x = 0.25, y = -0.02)) |&gt;\n  partial_bundle() # reduce html file size"
   },
   {
     "objectID": "countries.html#table-of-response-numbers-by-continent",
     "href": "countries.html#table-of-response-numbers-by-continent",
     "title": "Survey response numbers",
     "section": "Table of response numbers by continent",
-    "text": "Table of response numbers by continent\n\n\nShow code\nd_clean |&gt; \n  count(continent, sort = TRUE) |&gt;\n  reactable(striped = TRUE)"
+    "text": "Table of response numbers by continent\n\n\nShow code\nd_clean |&gt; \n  count(continent, sort = TRUE) |&gt;\n  reactable(\n    striped = TRUE,\n    columns = list(\n      continent = colDef(minWidth = 400),\n      n = colDef(minWidth = 50)\n      ),\n    fullWidth = FALSE\n    )"
   },
   {
     "objectID": "countries.html#table-of-response-numbers-by-country",
     "href": "countries.html#table-of-response-numbers-by-country",
     "title": "Survey response numbers",
     "section": "Table of response numbers by country",
-    "text": "Table of response numbers by country\n\n\nShow code\ncountry_counts |&gt;\n  reactable(defaultSorted = \"n\", defaultSortOrder = \"desc\", searchable = TRUE, striped = TRUE, defaultPageSize = 300)"
+    "text": "Table of response numbers by country\n\n\nShow code\ncountry_counts |&gt;\n  reactable(defaultSorted = \"n\", \n            defaultSortOrder = \"desc\", \n            searchable = TRUE, \n            striped = TRUE, \n            defaultPageSize = 300, \n            columns = list(\n              continent = colDef(minWidth = 200),\n              country = colDef(minWidth = 200),\n              n = colDef(minWidth = 50)\n              ), \n            fullWidth = FALSE)"
   }
 ]

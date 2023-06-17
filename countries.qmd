@@ -3,6 +3,7 @@ title: Survey response numbers
 date: now
 format: 
   html:
+    page-layout: full
     self-contained: true
     code-fold: true
     code-summary: "Show code"
@@ -81,7 +82,7 @@ gg <- ggplot() +
 
 
 ggplotly(gg, tooltip = "text") |> 
-  layout(width=700, height=450,
+  layout(width=900,
          legend = list(orientation = "h", x = 0.25, y = -0.02)) |>
   partial_bundle() # reduce html file size
 ```
@@ -91,12 +92,29 @@ ggplotly(gg, tooltip = "text") |>
 ```{r}
 d_clean |> 
   count(continent, sort = TRUE) |>
-  reactable(striped = TRUE)
+  reactable(
+    striped = TRUE,
+    columns = list(
+      continent = colDef(minWidth = 400),
+      n = colDef(minWidth = 50)
+      ),
+    fullWidth = FALSE
+    )
 ```
 
 ## Table of response numbers by country
 
 ```{r}
 country_counts |>
-  reactable(defaultSorted = "n", defaultSortOrder = "desc", searchable = TRUE, striped = TRUE, defaultPageSize = 300)
+  reactable(defaultSorted = "n", 
+            defaultSortOrder = "desc", 
+            searchable = TRUE, 
+            striped = TRUE, 
+            defaultPageSize = 300, 
+            columns = list(
+              continent = colDef(minWidth = 200),
+              country = colDef(minWidth = 200),
+              n = colDef(minWidth = 50)
+              ), 
+            fullWidth = FALSE)
 ```
