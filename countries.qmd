@@ -94,11 +94,7 @@ d_clean |>
   count(continent, sort = TRUE) |>
   reactable(
     striped = TRUE,
-    columns = list(
-      continent = colDef(minWidth = 400),
-      n = colDef(minWidth = 50)
-      ),
-    fullWidth = FALSE
+    width=900
     )
 ```
 
@@ -111,10 +107,5 @@ country_counts |>
             searchable = TRUE, 
             striped = TRUE, 
             defaultPageSize = 300, 
-            columns = list(
-              continent = colDef(minWidth = 200),
-              country = colDef(minWidth = 200),
-              n = colDef(minWidth = 50)
-              ), 
-            fullWidth = FALSE)
+            width = 900)
 ```

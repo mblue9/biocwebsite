@@ -18,13 +18,13 @@
     "href": "countries.html#table-of-response-numbers-by-continent",
     "title": "Survey response numbers",
     "section": "Table of response numbers by continent",
-    "text": "Table of response numbers by continent\n\n\nShow code\nd_clean |&gt; \n  count(continent, sort = TRUE) |&gt;\n  reactable(\n    striped = TRUE,\n    columns = list(\n      continent = colDef(minWidth = 400),\n      n = colDef(minWidth = 50)\n      ),\n    fullWidth = FALSE\n    )"
+    "text": "Table of response numbers by continent\n\n\nShow code\nd_clean |&gt; \n  count(continent, sort = TRUE) |&gt;\n  reactable(\n    striped = TRUE,\n    width=900\n    )"
   },
   {
     "objectID": "countries.html#table-of-response-numbers-by-country",
     "href": "countries.html#table-of-response-numbers-by-country",
     "title": "Survey response numbers",
     "section": "Table of response numbers by country",
-    "text": "Table of response numbers by country\n\n\nShow code\ncountry_counts |&gt;\n  reactable(defaultSorted = \"n\", \n            defaultSortOrder = \"desc\", \n            searchable = TRUE, \n            striped = TRUE, \n            defaultPageSize = 300, \n            columns = list(\n              continent = colDef(minWidth = 200),\n              country = colDef(minWidth = 200),\n              n = colDef(minWidth = 50)\n              ), \n            fullWidth = FALSE)"
+    "text": "Table of response numbers by country\n\n\nShow code\ncountry_counts |&gt;\n  reactable(defaultSorted = \"n\", \n            defaultSortOrder = \"desc\", \n            searchable = TRUE, \n            striped = TRUE, \n            defaultPageSize = 300, \n            width = 900)"
   }
 ]
