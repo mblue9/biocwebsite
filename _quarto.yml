@@ -1,0 +1,13 @@
+project:
+  type: website
+website:
+  title: "Bioconductor Website Redesign"
+  sidebar: false
+  navbar:
+    right:
+      - icon: github
+        href: https://github.com/mblue9/biocwebsite
+        aria-label: GitHub
+format:
+  html:
+    theme: cosmo
