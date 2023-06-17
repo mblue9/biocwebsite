@@ -3,6 +3,7 @@ project:
   output-dir: docs
 website:
   title: "Bioconductor Website Redesign"
+  sidebar: false
   navbar:
     right:
       - icon: github
@@ -12,4 +13,3 @@ format:
   html:
     theme: cosmo
     css: styles.css
-    toc: true
