@@ -12,11 +12,10 @@ execute:
   message: false
   warning: false
 ---
-
-![](SOCIAL-IMAGE2.png){width="500px"}
-
-Link: <https://t.maze.co/169169456>.\
+Survey Link: <https://t.maze.co/169169456>.\
 Closes: Friday June 23
+
+## Map of response numbers by country
 
 ```{r}
 # Load packages
@@ -52,11 +51,8 @@ country_counts <-
   mutate(n = n()) |>
   select(continent, country, n) |>
   distinct()
-```
 
-## Map of response numbers by country
-
-```{r}
+# Plot map
 world_map <- map_data("world")
 world_map <- subset(world_map, region != "Antarctica")
 
@@ -82,8 +78,7 @@ gg <- ggplot() +
 
 
 ggplotly(gg, tooltip = "text") |> 
-  layout(width=900,
-         legend = list(orientation = "h", x = 0.25, y = -0.02)) |>
+  layout(legend = list(orientation = "h", x = 0.25, y = -0.02)) |>
   partial_bundle() # reduce html file size
 ```
 
@@ -92,10 +87,7 @@ ggplotly(gg, tooltip = "text") |>
 ```{r}
 d_clean |> 
   count(continent, sort = TRUE) |>
-  reactable(
-    striped = TRUE,
-    width=900
-    )
+  reactable(striped = TRUE)
 ```
 
 ## Table of response numbers by country
@@ -106,6 +98,5 @@ country_counts |>
             defaultSortOrder = "desc", 
             searchable = TRUE, 
             striped = TRUE, 
-            defaultPageSize = 300, 
-            width = 900)
+            defaultPageSize = 300)
 ```
