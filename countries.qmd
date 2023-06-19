@@ -12,6 +12,7 @@ execute:
   message: false
   warning: false
 ---
+
 Survey Link: <https://t.maze.co/169169456>.\
 Closes: Friday June 23
 
@@ -38,6 +39,7 @@ d_clean <- d_countries |>
     case_when(toupper(value) == "NL" ~ "Netherlands",
               value == "England" ~ "United Kingdom",
               value == "CH\n" ~ "Switzerland",
+              value == "中国" ~ "China",
               TRUE ~ country))
 
 # Add continents
@@ -50,7 +52,8 @@ country_counts <-
   group_by(country) |>
   mutate(n = n()) |>
   select(continent, country, n) |>
-  distinct()
+  distinct() |>
+  mutate(country = replace_na(country, "NA"), continent = replace_na(continent, "NA")) # some countries can't match (asad, 1) so show as NA
 
 # Plot map
 world_map <- map_data("world")
@@ -85,9 +88,10 @@ ggplotly(gg, tooltip = "text") |>
 ## Table of response numbers by continent
 
 ```{r}
-d_clean |> 
-  count(continent, sort = TRUE) |>
-  reactable(striped = TRUE)
+country_counts |> 
+  group_by(continent) |>
+  summarise(n = sum(n)) |>
+  reactable(striped = TRUE, defaultSorted = "n", defaultSortOrder = "desc")
 ```
 
 ## Table of response numbers by country
