@@ -9,8 +9,6 @@ format:
     code-summary: "Show code"
 editor: visual
 image: "map-survey.png"
-open-graph: true
-twitter-card: true
 execute:
   message: false
   warning: false

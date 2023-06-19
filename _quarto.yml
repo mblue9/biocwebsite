@@ -3,6 +3,8 @@ project:
   output-dir: docs
 website:
   title: "Bioconductor Website Redesign"
+  open-graph: true
+  twitter-card: true
   sidebar: false
   navbar:
     right:
