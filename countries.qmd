@@ -39,8 +39,10 @@ d_clean <- d_countries |>
   mutate(country = 
     case_when(toupper(value) == "NL" ~ "Netherlands",
               value == "England" ~ "United Kingdom",
+              value == "the U.K." ~ "United Kingdom",
               value == "CH\n" ~ "Switzerland",
               value == "中国" ~ "China",
+              value == "PRC" ~ "China",
               TRUE ~ country))
 
 # Add continents
