@@ -43,6 +43,7 @@ d_clean <- d_countries |>
               value == "CH\n" ~ "Switzerland",
               value == "中国" ~ "China",
               value == "PRC" ~ "China",
+              value == "China, Australia" ~ "China",
               TRUE ~ country))
 
 # Add continents
@@ -84,8 +85,7 @@ gg <- ggplot() +
 
 
 ggplotly(gg, tooltip = "text") |> 
-  layout(legend = list(orientation = "h", x = 0.25, y = -0.02)) |>
-  partial_bundle() # reduce html file size
+  layout(legend = list(orientation = "h", x = 0.25, y = -0.02))
 ```
 
 ## Table of response numbers by continent
