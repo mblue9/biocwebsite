@@ -85,7 +85,8 @@ gg <- ggplot() +
 
 
 ggplotly(gg, tooltip = "text") |> 
-  layout(legend = list(orientation = "h", x = 0.25, y = -0.02))
+  layout(legend = list(orientation = "h", x = 0.25, y = -0.02)) |>
+  partial_bundle() # reduce html file size
 ```
 
 ## Table of response numbers by continent
