@@ -15,7 +15,7 @@ execute:
 ---
 
 Survey Link: <https://t.maze.co/169169456>.\
-Closes: Friday June 23
+Survey Open: June 13 2023 - June 23 2023
 
 ## Map of response numbers by country
 
@@ -44,6 +44,8 @@ d_clean <- d_countries |>
               value == "中国" ~ "China",
               value == "PRC" ~ "China",
               value == "China, Australia" ~ "China",
+              value == "México" ~ "Mexico",
+              value == "Brasil" ~ "Brazil",
               TRUE ~ country))
 
 # Add continents
@@ -95,7 +97,13 @@ ggplotly(gg, tooltip = "text") |>
 country_counts |> 
   group_by(continent) |>
   summarise(n = sum(n)) |>
-  reactable(striped = TRUE, defaultSorted = "n", defaultSortOrder = "desc")
+  reactable(striped = TRUE, 
+            defaultSorted = "n", 
+            defaultSortOrder = "desc",
+            columns = list(
+              continent = colDef(footer = "Total"),
+              n = colDef(footer = function(values) sum(values))),
+            defaultColDef = colDef(footerStyle = list(fontWeight = "bold")))
 ```
 
 ## Table of response numbers by country
@@ -106,5 +114,9 @@ country_counts |>
             defaultSortOrder = "desc", 
             searchable = TRUE, 
             striped = TRUE, 
-            defaultPageSize = 300)
+            defaultPageSize = 300,
+            columns = list(
+              continent = colDef(footer = "Total"),
+              n = colDef(footer = function(values) sum(values))),
+            defaultColDef = colDef(footerStyle = list(fontWeight = "bold")))
 ```
